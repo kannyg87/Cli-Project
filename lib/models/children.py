@@ -1,9 +1,9 @@
-# lib/models/childern.py
+# lib/models/children.py
 from models.__init__ import CURSOR, CONN
 from lib.models.parents import Parent
 
 
-class Childern:
+class Children:
 
     all = {}
 
@@ -15,7 +15,7 @@ class Childern:
 
     def __repr__(self):
         return (
-            f"<Childern {self.id}: {self.name}, {self.gender}, " +
+            f"<Children {self.id}: {self.name}, {self.gender}, " +
             f"Parent ID: {self.parent_id}>"
         )
 
@@ -59,9 +59,9 @@ class Childern:
 
     @classmethod
     def create_table(cls):
-        """ Create a new table to persist the attributes of childern instances """
+        """ Create a new table to persist the attributes of children instances """
         sql = """
-            CREATE TABLE IF NOT EXISTS childern (
+            CREATE TABLE IF NOT EXISTS children (
             id INTEGER PRIMARY KEY,
             name TEXT,
             gender TEXT,
@@ -73,19 +73,19 @@ class Childern:
 
     @classmethod
     def drop_table(cls):
-        """ Drop the table that persists childern instances """
+        """ Drop the table that persists children instances """
         sql = """
-            DROP TABLE IF EXISTS childern;
+            DROP TABLE IF EXISTS children;
         """
         CURSOR.execute(sql)
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name, job title, and parent id values of the current childern object.
+        """ Insert a new row with the name, job title, and parent id values of the current children object.
         Update object id attribute using the primary key value of new row.
         Save the object in local dictionary using table row's PK as dictionary key"""
         sql = """
-                INSERT INTO childern (name, gender, parent_id)
+                INSERT INTO children (name, gender, parent_id)
                 VALUES (?, ?, ?)
         """
 
@@ -96,9 +96,9 @@ class Childern:
         type(self).all[self.id] = self
 
     def update(self):
-        """Update the table row corresponding to the current childern instance."""
+        """Update the table row corresponding to the current children instance."""
         sql = """
-            UPDATE childern
+            UPDATE children
             SET name = ?, gender = ?, parent_id = ?
             WHERE id = ?
         """
@@ -107,11 +107,11 @@ class Childern:
         CONN.commit()
 
     def delete(self):
-        """Delete the table row corresponding to the current childern instance,
+        """Delete the table row corresponding to the current children instance,
         delete the dictionary entry, and reassign id attribute"""
 
         sql = """
-            DELETE FROM childern
+            DELETE FROM children
             WHERE id = ?
         """
 
@@ -126,35 +126,35 @@ class Childern:
 
     @classmethod
     def create(cls, name, gender, parent_id):
-        """ Initialize a new childern instance and save the object to the database """
-        childern = cls(name, gender, parent_id)
-        childern.save()
-        return childern
+        """ Initialize a new children instance and save the object to the database """
+        children = cls(name, gender, parent_id)
+        children.save()
+        return children
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return an childern object having the attribute values from the table row."""
+        """Return an children object having the attribute values from the table row."""
 
         # Check the dictionary for  existing instance using the row's primary key
-        childern = cls.all.get(row[0])
-        if childern:
+        children = cls.all.get(row[0])
+        if children:
             # ensure attributes match row values in case local instance was modified
-            childern.name = row[1]
-            childern.gender = row[2]
-            childern.parent_id = row[3]
+            children.name = row[1]
+            children.gender = row[2]
+            children.parent_id = row[3]
         else:
             # not in dictionary, create new instance and add to dictionary
-            childern = cls(row[1], row[2], row[3])
-            childern.id = row[0]
-            cls.all[childern.id] = childern
-        return childern
+            children = cls(row[1], row[2], row[3])
+            children.id = row[0]
+            cls.all[children.id] = children
+        return children
 
     @classmethod
     def get_all(cls):
-        """Return a list containing one childern object per table row"""
+        """Return a list containing one children object per table row"""
         sql = """
             SELECT *
-            FROM childern
+            FROM children
         """
 
         rows = CURSOR.execute(sql).fetchall()
@@ -163,10 +163,10 @@ class Childern:
 
     @classmethod
     def find_by_id(cls, id):
-        """Return childern object corresponding to the table row matching the specified primary key"""
+        """Return children object corresponding to the table row matching the specified primary key"""
         sql = """
             SELECT *
-            FROM childern
+            FROM children
             WHERE id = ?
         """
 
@@ -177,7 +177,7 @@ class Childern:
     def find_by_id_all(cls, id):
         sql = """
             SELECT *
-            FROM childern
+            FROM children
             WHERE parent_id = ?
         """
         rows = CURSOR.execute(sql, (id,)).fetchall()
@@ -186,10 +186,10 @@ class Childern:
 
     @classmethod
     def find_by_name(cls, name):
-        """Return childern object corresponding to first table row matching specified name"""
+        """Return children object corresponding to first table row matching specified name"""
         sql = """
             SELECT *
-            FROM childern
+            FROM children
             WHERE name is ?
         """
 
