@@ -22,10 +22,13 @@ Take a look at the directory structure:
 └── lib
     ├── models
     │   ├── __init__.py
-    │   └── model_1.py
+    │       └── children.py
+    |       └── parent.py
+    |
     ├── cli.py
     ├── debug.py
-    └── helpers.py
+    ├── helpers.py
+    └── seed.py
 ```
 
 Note: The directory also includes two files named `CONTRIBUTING.md` and
@@ -49,6 +52,9 @@ pipenv shell
 ---
 
 ## Generating Your CLI
+
+# python lib/seed.py
+initialize the database
 
 A CLI is, simply put, an interactive script and prompts the user and performs
 operations based on user input.

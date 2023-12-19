@@ -3,7 +3,7 @@
 
 
 from models.__init__ import CONN, CURSOR
-from models.parents import Parent
+from models.parent import Parent
 from models.children import Children
 import ipdb
 
@@ -13,13 +13,13 @@ def reset_database():
     Parent.create_table()
     Children.create_table()
 
-    shereen = Parent.create("Ali", "25")
+    shereen = Parent.create("sheshe", 25)
     kanny = Parent.create(
-        "Human Resources", "Building C, East Wing")
+        "koko", 24)
     Children.create("Bano", "boy", shereen.id)
     Children.create("Shayar", "girl", shereen.id)
-    Children.create("Yasir", "girl", kanny.id)
-    Children.create("Deya", "boy", kanny.id)
+    Children.create("Yasir", "boy", kanny.id)
+    Children.create("Deya", "girl", kanny.id)
  
 reset_database()
 ipdb.set_trace()

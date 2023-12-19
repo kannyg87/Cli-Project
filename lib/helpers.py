@@ -1,4 +1,4 @@
-from models.parents import Parent
+from models.parent import Parent
 from models.children import Children
 
 
@@ -28,29 +28,12 @@ def find_parent_by_id():
 
 def create_parent():
     name = input("Enter the parent's name: ")
-    location = input("Enter the parent's location: ")
+    age = input("Enter the parent's age: ")
     try:
-        parent = Parent.create(name, location)
+        parent = Parent.create(name, age)
         print(f'Success: {parent}')
     except Exception as exc:
         print("Error creating parent: ", exc)
-
-
-def update_parent():
-    id_ = input("Enter the parent's id: ")
-    if parent := Parent.find_by_id(id_):
-        try:
-            name = input("Enter the parent's new name: ")
-            parent.name = name
-            location = input("Enter the parent's new location: ")
-            parent.location = location
-
-            parent.update()
-            print(f'Success: {parent}')
-        except Exception as exc:
-            print("Error updating parent: ", exc)
-    else:
-        print(f'parent {id_} not found')
 
 
 def delete_parent():
@@ -84,36 +67,16 @@ def find_children_by_id():
 
 def create_children():
     name = input("Enter the children's name: ")
-    job_title = input("Enter the children's job title: ")
+    gender = input("Enter the children's gender: ")
     parent_id = input("Enter the children's parent ID: ")
 
     try:
-        children = Children.create(name, job_title, parent_id)
+        children = Children.create(name, gender, parent_id)
         print(f'Success: {children}')
     except ValueError:
         print("Invalid parent ID. Please enter a valid number.")
     except Exception as exc:
         print("Error creating children: ", exc)
-
-
-
-def update_children():
-    id_ = input("Enter the children's id: ")
-    if children := Children.find_by_id(id_):
-        try:
-            name = input("Enter the children's new name: ")
-            children.name = name
-            job_title = input("Enter the children's new job_title: ")
-            children.job_title = job_title
-            parent_id = input("Enter the children's new parent_id: ")
-            children.parent_id = parent_id
-
-            children.update()
-            print(f'Success: {children}')
-        except Exception as exc:
-            print("Error updating children: ", exc)
-    else:
-        print(f'children {id_} not found')
 
 
 def delete_children():

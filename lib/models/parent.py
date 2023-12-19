@@ -166,7 +166,7 @@ class Parent:
 
     def parents(self):
         """Return list of parent associated with current parent"""
-        from lib.models.parents import Parent
+        from lib.models.parent import Parent
         sql = """
             SELECT * FROM parent
             WHERE parent_id = ?
