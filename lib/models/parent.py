@@ -2,6 +2,7 @@
 from models.__init__ import CURSOR, CONN
 
 
+
 class Parent:
 
     all = {}
@@ -11,8 +12,8 @@ class Parent:
         self.name = name
         self.age = age
 
-    def __repr__(self):
-        return f"<Parent {self.id}: {self.name}, {self.age}>"
+    # def __repr__(self):
+    #     return f"<Parent {self.id}: {self.name}, {self.age}>"
 
     @property
     def name(self):
@@ -177,3 +178,9 @@ class Parent:
         return [
             Parent.instance_from_db(row) for row in rows
         ]
+    
+    def children(self):
+        from models.children import Children
+        childrens = Children.find_by_id_all(self.id)
+        breakpoint()
+        

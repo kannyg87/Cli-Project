@@ -13,13 +13,14 @@ def reset_database():
     Parent.create_table()
     Children.create_table()
 
-    shereen = Parent.create("sheshe", 25)
-    kanny = Parent.create(
-        "koko", 24)
-    Children.create("Bano", "boy", shereen.id)
-    Children.create("Shayar", "girl", shereen.id)
-    Children.create("Yasir", "boy", kanny.id)
-    Children.create("Deya", "girl", kanny.id)
+    # shereen = Parent.create("sheshe", 25)
+    # kanny = Parent.create(
+    #     "koko", 24)
+    # ipdb.set_trace()
+    # Children.create("Bano", "boy", shereen.id)
+    # Children.create("Shayar", "girl", shereen.id)
+    # Children.create("Yasir", "boy", kanny.id)
+    # Children.create("Deya", "girl", kanny.id)
  
 reset_database()
 ipdb.set_trace()

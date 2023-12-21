@@ -3,15 +3,18 @@ from models.children import Children
 
 
 def exit_program():
-    print("Goodbye!")
+    print("See you next time!")
     exit()
 
 
 def list_parents():
     parents = Parent.get_all()
-    for parent in parents:
-        print(parent)
-
+    # for parent in parents:
+    print(" ")
+    for i, parent in enumerate(parents, start=1):
+        # ...    print(i, value)
+        print(f'{i}. Parent name is: {parent.name} and age: {parent.age}')
+    print(" ")
 
 def find_parent_by_name():
     name = input("Enter the parent's name: ")
@@ -28,12 +31,21 @@ def find_parent_by_id():
 
 def create_parent():
     name = input("Enter the parent's name: ")
-    age = input("Enter the parent's age: ")
+    while True:
+        age_input = input("Enter the parent's age: ")
+        try:
+            age = int(age_input)
+            break
+        except ValueError:
+            print("Please enter a valid age.")
+
     try:
         parent = Parent.create(name, age)
         print(f'Success: {parent}')
+        return parent
     except Exception as exc:
         print("Error creating parent: ", exc)
+        return None
 
 
 def delete_parent():
@@ -49,7 +61,6 @@ def list_childrens():
     childrens = Children.get_all()
     for children in childrens:
         print(children)
-
 
 
 def find_children_by_name():
@@ -68,15 +79,22 @@ def find_children_by_id():
 def create_children():
     name = input("Enter the children's name: ")
     gender = input("Enter the children's gender: ")
-    parent_id = input("Enter the children's parent ID: ")
+
+    while True:
+        parent_id_input = input("Enter the children's parent ID: ")
+        try:
+            parent_id = int(parent_id_input)
+            break
+        except ValueError:
+            print("Invalid parent ID. Please enter a valid number.")
 
     try:
         children = Children.create(name, gender, parent_id)
         print(f'Success: {children}')
-    except ValueError:
-        print("Invalid parent ID. Please enter a valid number.")
+        return children
     except Exception as exc:
         print("Error creating children: ", exc)
+        return None
 
 
 def delete_children():
@@ -89,9 +107,11 @@ def delete_children():
 
 
 def list_parent_childrens():
-    
-    parent_id = input("Enter the parent's id: ")
 
-    childrens = Children.find_by_id_all(parent_id)
-    print(childrens) if childrens else print(f'No childrens found in parent {parent_id}')
-
+    name = input("Enter the parent's name: ")
+    parent = Parent.find_by_name(name)
+    childrens = parent.children()
+    # childrens = Children.find_by_id_all(name)
+    breakpoint
+    print(childrens) if childrens else print(
+        f'No childrens found in parent {name}')
