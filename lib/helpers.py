@@ -1,5 +1,6 @@
 from models.parent import Parent
 from models.children import Children
+from models.__init__ import CURSOR
 
 
 def exit_program():
@@ -16,6 +17,7 @@ def list_parents():
         # ...    print(i, value)
         print(f'{i}. Parent name is: {parent.name} and age: {parent.age}\n')
     print(" ")
+
 
 def find_parent_by_name():
     print(" ")
@@ -46,7 +48,7 @@ def find_parent_by_age():
 
 
 def create_parent():
-    print(" ") 
+    print(" ")
     name = input("Enter the parent's name: ")
     while True:
         print(" ")
@@ -60,7 +62,8 @@ def create_parent():
     try:
         parent = Parent.create(name, age)
         print(" ")
-        print(f'New parent: {parent.name} has been created and the age is: {parent.age}')
+        print(
+            f'New parent: {parent.name} has been created and the age is: {parent.age}')
         print(" ")
         return parent
     except Exception as exc:
@@ -97,7 +100,8 @@ def find_children_by_name():
     children = Children.find_by_name(name)
     if children:
         print(" ")
-        print(f'Child name is: {children.name} and gender is: {children.gender}')
+        print(
+            f'Child name is: {children.name} and gender is: {children.gender}')
         print(" ")
     else:
         print(" ")
@@ -111,7 +115,8 @@ def find_children_by_gender():
     children = Children.find_by_gender(gender)
     if children:
         print(" ")
-        print(f"\n {children.gender} is the gender for the Child's name: {children.name}\n")
+        print(
+            f"\n {children.gender} is the gender for the Child's name: {children.name}\n")
         print(" ")
     else:
         print(" ")
@@ -119,30 +124,35 @@ def find_children_by_gender():
         print(" ")
 
 
+def find_parent_id_by_name(parent_name):
+    sql = """
+        SELECT id
+        FROM parents
+        WHERE name = ?
+    """
+    row = CURSOR.execute(sql, (parent_name,)).fetchone()
+    return row[0] if row else None
+
 def create_children():
     name = input("Enter the children's name: ")
     gender = input("Enter the children's gender: ")
 
-    while True:
-        parent_id_input = input("Enter the children's parent ID: ")
-        try:
-            parent_id = int(parent_id_input)
-            break
-        except ValueError:
-            print("Invalid parent ID. Please enter a valid number.")
+    parent_id = None
+    while parent_id is None:
+        parent_name_input = input("Enter the children's parent's name: ")
+        parent_id = find_parent_id_by_name(parent_name_input)
+        if parent_id is None:
+            print("Parent not found. Please enter a valid parent's name.")
 
-    # Assuming the rest of your code creates the child record successfully
     try:
         children = Children.create(name, gender, parent_id)
-        print(" ")
-        print(f"Child {name} with gender {gender} has been added.")
-        print(" ")
+        print(f"\nChild {name} with gender {gender} has been added.\n")
         return children
     except Exception as exc:
         print("Error creating child: ", exc)
         return None
 
-   
+
 def delete_children():
     name = input("Enter the child's name: ")
     if children := Children.find_by_name(name):
@@ -151,16 +161,20 @@ def delete_children():
     else:
         print(f'children {name} not found')
 
+
 def list_parent_childrens():
+    print(" ")
     name = input("Enter the parent's name: ")
     parent = Parent.find_by_name(name)
     if parent:
         children_list = parent.children()
         if children_list:
             for child in children_list:
-                print(f'Child {child.name} and the gender is {child.name} for the parent: {parent.name}')
+                print(" ")
+                print(
+                    f'Child {child.name} and the gender is {child.name} for the parent: {parent.name}')
+                print(" ")
         else:
             print(f'No children found for parent {name}')
     else:
         print(f'Parent {name} not found')
-
