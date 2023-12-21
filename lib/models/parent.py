@@ -142,7 +142,7 @@ class Parent:
         return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
-    def find_by_age(cls, id):
+    def find_by_age(cls, age):
         """Return a parent object corresponding to the table row matching the specified primary key"""
         sql = """
             SELECT *
@@ -150,7 +150,7 @@ class Parent:
             WHERE age = ?
         """
 
-        row = CURSOR.execute(sql, (id,)).fetchone()
+        row = CURSOR.execute(sql, (age,)).fetchone()
         return cls.instance_from_db(row) if row else None
 
     @classmethod
@@ -163,6 +163,17 @@ class Parent:
         """
 
         row = CURSOR.execute(sql, (name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def find_by_id(cls, id):
+        """Return a Parent object corresponding to the table row matching the specified primary key"""
+        sql = """
+            SELECT *
+            FROM parents
+            WHERE id is ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
 
     def parents(self):
@@ -181,6 +192,5 @@ class Parent:
     
     def children(self):
         from models.children import Children
-        childrens = Children.find_by_id_all(self.id)
-        breakpoint()
-        
+        children_list = Children.find_by_id_all(self.id)
+        return children_list

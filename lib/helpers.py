@@ -14,7 +14,7 @@ def list_parents():
     print(" ")
     for i, parent in enumerate(parents, start=1):
         # ...    print(i, value)
-        print(f'{i}. Parent name is: {parent.name} and age: {parent.age}')
+        print(f'{i}. Parent name is: {parent.name} and age: {parent.age}\n')
     print(" ")
 
 def find_parent_by_name():
@@ -84,21 +84,39 @@ def delete_parent():
 
 def list_childrens():
     childrens = Children.get_all()
-    for children in childrens:
-        print(children)
+    print(" ")
+    for i, children in enumerate(childrens, start=1):
+        # ...    print(i, value)
+        print(f'{i}. Child name is: {children.name} and gender: {children.gender}\n')
+    print(" ")
 
 
 def find_children_by_name():
+    print(" ")
     name = input("Enter the children's name: ")
     children = Children.find_by_name(name)
-    print(children) if children else print(
-        f'Empolyee {name} not found')
+    if children:
+        print(" ")
+        print(f'Child name is: {children.name} and gender is: {children.gender}')
+        print(" ")
+    else:
+        print(" ")
+        print(f'Child {name} not found')
+        print(" ")
 
 
-def find_children_by_id():
-    id_ = input("Enter the children's id: ")
-    children = Children.find_by_id(id_)
-    print(children) if children else print(f'children {id_} not found')
+def find_children_by_gender():
+    print(" ")
+    gender = input("Enter the children's gender: ")
+    children = Children.find_by_gender(gender)
+    if children:
+        print(" ")
+        print(f"\n {children.gender} is the gender for the Child's name: {children.name}\n")
+        print(" ")
+    else:
+        print(" ")
+        print(f'Child with age: {gender} not found')
+        print(" ")
 
 
 def create_children():
@@ -113,30 +131,36 @@ def create_children():
         except ValueError:
             print("Invalid parent ID. Please enter a valid number.")
 
+    # Assuming the rest of your code creates the child record successfully
     try:
         children = Children.create(name, gender, parent_id)
-        print(f'Success: {children}')
+        print(" ")
+        print(f"Child {name} with gender {gender} has been added.")
+        print(" ")
         return children
     except Exception as exc:
-        print("Error creating children: ", exc)
+        print("Error creating child: ", exc)
         return None
 
-
+   
 def delete_children():
-    id_ = input("Enter the children's id: ")
-    if children := Children.find_by_id(id_):
+    name = input("Enter the child's name: ")
+    if children := Children.find_by_name(name):
         children.delete()
-        print(f'children {id_} deleted')
+        print(f'Child {name} is deleted')
     else:
-        print(f'children {id_} not found')
-
+        print(f'children {name} not found')
 
 def list_parent_childrens():
-
     name = input("Enter the parent's name: ")
     parent = Parent.find_by_name(name)
-    childrens = parent.children()
-    # childrens = Children.find_by_id_all(name)
-    breakpoint
-    print(childrens) if childrens else print(
-        f'No childrens found in parent {name}')
+    if parent:
+        children_list = parent.children()
+        if children_list:
+            for child in children_list:
+                print(f'Child {child.name} and the gender is {child.name} for the parent: {parent.name}')
+        else:
+            print(f'No children found for parent {name}')
+    else:
+        print(f'Parent {name} not found')
+

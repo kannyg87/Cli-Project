@@ -14,8 +14,8 @@ def seed_database():
     shereen = Parent.create("sheshe", 25)
     kanny = Parent.create(
         "koko", 24)
-    Children.create("Bano", "boy", shereen.id)
-    Children.create("Shayar", "girl", shereen.id)
+    Children.create("Bano", "girl", shereen.id)
+    Children.create("Shayar", "boy", shereen.id)
     Children.create("Yasir", "boy", kanny.id)
     Children.create("Deya", "girl", kanny.id)
 

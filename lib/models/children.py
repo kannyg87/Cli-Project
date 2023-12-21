@@ -13,11 +13,11 @@ class Children:
         self.gender = gender
         self.parent_id = parent_id
 
-    def __repr__(self):
-        return (
-            f"<Children {self.id}: {self.name}, {self.gender}, " +
-            f"Parent ID: {self.parent_id}>"
-        )
+    # def __repr__(self):
+    #     return (
+    #         f"<Children {self.id}: {self.name}, {self.gender}, " +
+    #         f"Parent ID: {self.parent_id}>"
+    #     )
 
     @property
     def name(self):
@@ -51,11 +51,9 @@ class Children:
 
     @parent_id.setter
     def parent_id(self, parent_id):
-        if type(parent_id) is int and Parent.find_by_id(parent_id):
-            self._parent_id = parent_id
-        else:
-            raise ValueError(
-                "parent_id must reference a parent in the database")
+        if type(parent_id) is not int:
+            raise ValueError("parent_id must be an integer")
+        self._parent_id = parent_id
 
     @classmethod
     def create_table(cls):
@@ -162,6 +160,30 @@ class Children:
         return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
+    def find_by_name(cls, name):
+        """Return children object corresponding to first table row matching specified name"""
+        sql = """
+            SELECT *
+            FROM children
+            WHERE name is ?
+        """
+
+        row = CURSOR.execute(sql, (name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_gender(cls, gender):
+        """Return children object corresponding to the table row matching the specified primary key"""
+        sql = """
+            SELECT *
+            FROM children
+            WHERE gender = ?
+        """
+
+        row = CURSOR.execute(sql, (gender,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    @classmethod
     def find_by_id(cls, id):
         """Return children object corresponding to the table row matching the specified primary key"""
         sql = """
@@ -182,16 +204,3 @@ class Children:
         """
         rows = CURSOR.execute(sql, (id,)).fetchall()
         return [cls.instance_from_db(row) for row in rows] if rows else None
-
-
-    @classmethod
-    def find_by_name(cls, name):
-        """Return children object corresponding to first table row matching specified name"""
-        sql = """
-            SELECT *
-            FROM children
-            WHERE name is ?
-        """
-
-        row = CURSOR.execute(sql, (name,)).fetchone()
-        return cls.instance_from_db(row) if row else None

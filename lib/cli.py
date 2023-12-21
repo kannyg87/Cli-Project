@@ -7,7 +7,7 @@ from helpers import (
     delete_parent,
     list_childrens,
     find_children_by_name,
-    find_children_by_id,
+    find_children_by_gender,
     create_children,
     delete_children,
     list_parent_childrens
@@ -35,7 +35,7 @@ def main():
         elif choice == "7":
             find_children_by_name()
         elif choice == "8":
-            find_children_by_id()
+            find_children_by_gender()
         elif choice == "9":
             create_children()
         elif choice == "10":
@@ -56,7 +56,7 @@ def menu():
     print("5: Delete parent")
     print("6. List all childrens")
     print("7. Find children by name")
-    print("8. Find children by id")
+    print("8. Find children by gender")
     print("9: Create children")
     print("10: Delete children")
     print("11: List all childrens in a parent")
