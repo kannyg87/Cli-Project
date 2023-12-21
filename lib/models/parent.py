@@ -142,12 +142,12 @@ class Parent:
         return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
-    def find_by_id(cls, id):
+    def find_by_age(cls, id):
         """Return a parent object corresponding to the table row matching the specified primary key"""
         sql = """
             SELECT *
             FROM parents
-            WHERE id = ?
+            WHERE age = ?
         """
 
         row = CURSOR.execute(sql, (id,)).fetchone()

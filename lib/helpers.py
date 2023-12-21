@@ -3,6 +3,7 @@ from models.children import Children
 
 
 def exit_program():
+    print(" ")
     print("See you next time!")
     exit()
 
@@ -17,21 +18,38 @@ def list_parents():
     print(" ")
 
 def find_parent_by_name():
+    print(" ")
     name = input("Enter the parent's name: ")
     parent = Parent.find_by_name(name)
-    print(parent) if parent else print(
-        f'parent {name} not found')
+    if parent:
+        print(" ")
+        print(f'Parent name is: {parent.name} and age: {parent.age}')
+        print(" ")
+    else:
+        print(" ")
+        print(f'Parent {name} not found')
+        print(" ")
 
 
-def find_parent_by_id():
-    id_ = input("Enter the parent's id: ")
-    parent = Parent.find_by_id(id_)
-    print(parent) if parent else print(f'parent {id_} not found')
+def find_parent_by_age():
+    print(" ")
+    age = input("Enter the parent's age: ")
+    parent = Parent.find_by_age(age)
+    if parent:
+        print(" ")
+        print(f"\nAge {parent.age} for the parent's name: {parent.name}\n")
+        print(" ")
+    else:
+        print(" ")
+        print(f'Parent with age: {age} not found')
+        print(" ")
 
 
 def create_parent():
+    print(" ") 
     name = input("Enter the parent's name: ")
     while True:
+        print(" ")
         age_input = input("Enter the parent's age: ")
         try:
             age = int(age_input)
@@ -41,7 +59,9 @@ def create_parent():
 
     try:
         parent = Parent.create(name, age)
-        print(f'Success: {parent}')
+        print(" ")
+        print(f'New parent: {parent.name} has been created and the age is: {parent.age}')
+        print(" ")
         return parent
     except Exception as exc:
         print("Error creating parent: ", exc)
@@ -49,12 +69,17 @@ def create_parent():
 
 
 def delete_parent():
-    id_ = input("Enter the parent's id: ")
-    if parent := Parent.find_by_id(id_):
+    print(" ")
+    name = input("Enter the parent's name: ")
+    if parent := Parent.find_by_name(name):
         parent.delete()
-        print(f'parent {id_} deleted')
+        print(" ")
+        print(f'parent {name} deleted')
+        print(" ")
     else:
-        print(f'parent {id_} not found')
+        print(" ")
+        print(f'parent {name} not found')
+        print(" ")
 
 
 def list_childrens():

@@ -2,7 +2,7 @@ from helpers import (
     exit_program,
     list_parents,
     find_parent_by_name,
-    find_parent_by_id,
+    find_parent_by_age,
     create_parent,
     delete_parent,
     list_childrens,
@@ -25,7 +25,7 @@ def main():
         elif choice == "2":
             find_parent_by_name()
         elif choice == "3":
-            find_parent_by_id()
+            find_parent_by_age()
         elif choice == "4":
             create_parent()
         elif choice == "5":
@@ -51,7 +51,7 @@ def menu():
     print("0. Exit the program")
     print("1. List all parents")
     print("2. Find parent by name")
-    print("3. Find parent by id")
+    print("3. Find parent by age")
     print("4: Create parent")
     print("5: Delete parent")
     print("6. List all childrens")
